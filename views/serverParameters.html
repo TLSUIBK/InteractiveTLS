@@ -1,0 +1,173 @@
+
+
+<!--------------- Encrypted Encryption ------------------>   
+<div class="stepServer"> 
+	<div class="stepServerContent" id="serverParameters" ng-if="step<4" style="background-color: #E5E7E9; width:50%;">
+        <div ng-if="keyExchange[0] == 'helloRetryRequest'" class="circleServer" ng-model="step" id="serverParameters"> 5</div> 
+        <div ng-if="keyExchange[0] == 'serverHello'" class="circleServer" ng-model="step" id="serverParameters"> 3</div>
+        <h3>Encrypted Extension</h3>
+        <p> (This message is encrypted) </p> <br/>
+        <span ng-repeat="n in encryptedExtension" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+                <div class="infoButton" ng-click="showInfo('encryptedExtension', n, 'info')">i</div>
+            </div>
+            </br>        
+        </span></br> 
+    </div>
+
+
+    <!-- <span ng-if= "step>4" style="font-size:100px; color: #F39C12;"> &larr; </span> -->
+    <div class="stepServerContent" id="serverParameters" ng-if= "step>=4" style="width:50%;">
+        <div ng-if="keyExchange[0] == 'helloRetryRequest'" class="circleServer" ng-model="step" id="serverParameters"> 5</div> 
+        <div ng-if="keyExchange[0] == 'serverHello'" class="circleServer" ng-model="step" id="serverParameters"> 3</div>
+        <h3>Encrypted Extension</h3>
+        <p> (This message is encrypted) </p> <br/>
+        <span id="repeat">
+        <span ng-repeat="n in encryptedExtension" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}}  {{n.eltValue}}
+                <div ng-if="n.delete == 'yes'" class="deleteButton" ng-click="showInfo('encryptedExtension', n, 'delete')">x</div>
+                <div ng-if="n.adjustment == 'yes'" class="adjustButton" ng-click="showInfo('encryptedExtension', n, 'adjust')">+</div>
+                <div class="infoButton" ng-click="showInfo('encryptedExtension', n, 'info')">i</div>
+            </div>
+            </br>        
+        </span>
+        </span> 
+        </br>  
+       
+
+        <button ng-if="addList[4] == false || listAdd.length ==0" id="addButton" ng-click="add(encryptedExtension,4)">
+            Add
+        </button>
+        <div ng-if="addList[4] == true && listAdd.length==0">
+            Nothing to add 
+        </div>
+        <div  id="adjustForm" ng-if="addList[4] == true && listAdd.length >0"> 
+        <form>
+            <span ng-repeat="(m,n) in listAdd">
+            <input type="radio"  ng-model="data.add" value="{{n}}">
+                    {{n}}
+            </input>
+            <br/>
+            </span>
+            <button id="addButton" style="background-color: green; color:white; margin-top:5px;" ng-click="addAdjust1('encryptedExtension',encryptedExtension)">
+                Adjust
+            </button>
+        </form>
+        </div>
+        <br/>
+         <button ng-show='step == 4' ng-click="incrementStep(step,'normal')" id="serverParametersButton" >
+            Next Step
+        </button>
+
+        
+    </div>
+</div>
+
+<!--------------- Certificate Request ------------------>   
+<div class="stepServer" ng-if="keyExchange[1] == 'certificateRequest'"> 
+    <div class="stepServerContent" id="serverParameters" ng-if="step <5" style="width:50%; background-color: #E5E7E9;">
+        <div class="circleServer" ng-if="keyExchange[0] == 'helloRetryRequest'" ng-model="step" id="serverParameters"> 6</div> 
+        <div class="circleServer" ng-if="keyExchange[0] == 'serverHello'" ng-model="step" id="serverParameters"> 4</div> 
+        <h3>Certificate Request</h3>
+        <span id="repeat">
+        <span ng-repeat="n in certificateRequest">
+            <div ng-if="n.eltName == 'certificate_request_context'">
+                <div style="display: inline-block;">
+                    {{n.eltName}} {{n.eltValue}}
+                    <div class="infoButton" ng-click="showInfo('certificateRequest', n, 'info')">i</div>              
+                    </br>  </br>
+                    <span> <b>Extensions: </b></span>  
+                </div>
+            </div>
+            <div ng-if="n.eltName != 'certificate_request_context'" style="display: inline-block;">
+               {{n.eltName}} {{n.eltValue}}
+               <div class="infoButton" ng-click="showInfo('certificateRequest', n, 'info')">i</div>
+            </div>
+            </br>        
+        </span>
+        </span>
+        </br>  
+    </div>
+
+    <!-- <span ng-if= "step>5" style="font-size:100px; color: #F39C12;"> &larr; </span> -->
+
+    <div class="stepServerContent" id="serverParameters" ng-if= "step>=5" style="width:50%;">
+        <div class="circleServer" ng-if="keyExchange[0] == 'helloRetryRequest'" ng-model="step" id="serverParameters"> 6</div> 
+        <div class="circleServer" ng-if="keyExchange[0] == 'serverHello'" ng-model="step" id="serverParameters"> 4</div> 
+        <h3>Certificate Request</h3>
+        <p> (This message is encrypted) </p> <br/>
+        <span id="repeat">
+        <span ng-repeat="n in certificateRequest" ng-if="n.deleted=='no'">
+            <div ng-if="n.eltName == 'certificate_request_context'">
+                <div style="display: inline-block;">
+                    {{n.eltName}} {{n.eltValue}}
+                    <div class="infoButton" ng-click="showInfo('certificateRequest', n, 'info')">i</div>              
+                </br>  </br>
+                <span> <b>Extensions: </b></span>  
+                </div>
+            </div>
+            <div ng-if="n.eltName != 'certificate_request_context'" style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+                <div ng-if="n.delete == 'yes'" class="deleteButton" ng-click="showInfo('certificateRequest', n, 'delete')">x</div>
+                <div ng-if="n.adjustment == 'yes'" class="adjustButton" ng-click="showInfo('certificateRequest', n, 'adjust')">+</div>
+                <div class="infoButton" ng-click="showInfo('certificateRequest', n, 'info')">i</div>
+            </div>
+            </br>        
+        </span>
+        </span>
+        </br>  
+       
+
+        <button ng-if="addList[5] == false || listAdd.length ==0" id="addButton" ng-click="add(certificateRequest,5)">
+            Add
+        </button>
+        <div ng-if="addList[5] == true && listAdd.length==0">
+            Nothing to add 
+        </div>
+        <div id="adjustForm" ng-if="addList[5] == true && listAdd.length >0"> 
+        <form >
+            <span ng-repeat="(m,n) in listAdd">
+            <input type="radio"  ng-model="data.add" value="{{n}}">
+                    {{n}}
+            </input>
+            <br/>
+            </span>
+            <button  id="addButton" style="background-color: green; color:white; margin-top:5px;" ng-click="addAdjust1('certificateRequest',certificateRequest)">
+                Adjust
+            </button>
+        </form>
+        </div>
+        <br/>
+         <button ng-show='step == 5' ng-click="incrementStep(step,'cert')" id="serverParametersButton" >
+            Next Step
+        </button>
+
+    </div>
+
+
+<div ng-if="early_dataClient && early_dataServer" class="stepServer"> 
+    <span ng-if= "step>5" style="font-size:100px; color: #F39C12;"> &larr; </span>  
+    <div ng-if="step <= 5.0" class="stepServerContent" id="serverParameters" style="width:50%; background-color:#E5E7E9;">
+        <h3>Application Data</h3>        
+    </div>
+    <div ng-if="step>5" class="stepServerContent" id="serverParameters" style="width:50%; background-color:transparent;">
+        <h3>Application Data</h3>     
+    </div> 
+</div>
+
+<div ng-if="early_dataClient && early_dataServer" class="stepClient"> 
+    
+    <div ng-if="step <= 5.0" class="stepClientContent" id="serverParameters" style="width:50%; background-color:#E5E7E9;">
+        <h3>End Of Early Data</h3>     
+        This message indicates the end of the early data
+    </div>
+    <div ng-if="step>5" class="stepClientContent" id="serverParameters" style="width:50%; background-color:transparent;">
+        <h3>End Of Early Data</h3>  
+        This message indicates the end of the early data   
+    </div> 
+    <span ng-if= "step>5" style="font-size:100px; color: #F39C12;"> &rarr; </span>  
+</div>
+
+</div>

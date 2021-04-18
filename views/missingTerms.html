@@ -1,0 +1,162 @@
+<div class="content">
+	<p style="font-size:20px;">  Some of the terms in the steps are summarized or even missing. Here is a more detailed explanation summarized or missing term:  </p>
+	<br/>
+<div>
+	<p>
+		<h3 style="color:#2E86C1; "> Key Exchange </h3>
+		<uib-accordion >
+    	<div uib-accordion-group id="keyExchange" heading="ClientHello" style="border-radius: 2em;border:2px solid;border-color:#2E86C1;">
+      		<ul>
+
+      			<li><p><b>legacy_session_id</b></p>
+      				<p><u>If Client TLS1.3 and Server TLS1.2 or below:</u></br>In compatibility mode: this field must be non-empty so a client not offering a pre-TLS1.3 session must generate a new 32-byte value. This value need not be random but should be unpredictable to avoid implementations fixating on a specific value (also known as ossification). Otherwise, it must be set as a zero-length vector (i.e., a zero-valued single byte length field). </p> <p><u>If Client TLS1.2 and Server TLS1.3:</u> </br>When a client has a cached session ID that is set by a pre-TLS1.3 server then this field should be set to that value </p> <p><u>If Client TLS1.2 and Server TLS1.2 or below: </u> </br> When a client has a cached session ID that is set by a pre-TLS1.3 server then this field should be set to that value. </p> <p> <u> If Client TLS1.1 or below and Server TLS1.3 or TLS1.2: </u> </br> When a client has a cached session ID that is set by a pre-TLS1.3 server then this field should be set to that value.</p>
+      			</li>
+      		</ul>
+          <br/>
+    			<p><u>Not included terms:</u></b></p>
+	     		<ul>
+      			<li><p><b>Padding:</b></p>
+      				<p>This extension data is an arbitrary number of zero bytes. This field is available so it can be used to pad a ClientHello to a desired size. This sometimes helps  avoiding implementation bugs that are caused by ClientHello sizes.</p>
+      			</li>
+            <br/>
+            <li><p><b>post_handshake_auth</b></p>
+              <p> This extension value should be of zero length.
+              <p> When this extension is provided in the clientHello, the server can at any time after the handshake completion,  request client authentication. The request is done by sending a certificateRequest message. In this case, the client should respond with the appropriate authentication messages.</p>
+              <p> In other words, if the client decides the certificate, certificateVerify, and finished messages. If the client on the other hand wants to decline, then he must send a certificate message not containing any certificate, followed by Finished message. </p>
+            </li>
+            <br/>
+            <li><p><b>Certificate Authorities </b></p>
+              <p> In this extension the client may indicate the certificate authorities (CAs) that he supports. The data of this field is a list of distinguished names of certificate authorities. </p>
+            </li>
+      		</ul>
+    	</div>
+    	
+    	<div uib-accordion-group id="keyExchange" heading="ServerHello & HelloRetryRequest"  style="border-radius: 2em;border:2px solid;border-color:#2E86C1;">
+      			<ul>
+            <li><p><b>random (ServerHello):</b></p>
+             <p> In TLS the random number field in the serverHello prevents downgrade attack.</u> 
+              If the client's version is 1.2 and the server 1.3, the random field value  in the serverHello should be equal to: <br/> 44 4F 57 4E 47 52 44 01 </p>
+             <p>If the client's version is 1.1 or below and the server is 1.3 or 1.2 the random field value in the serverHello should be equal to: <br/> 44 4F 57 4E 47 52 44 00 </p>  
+            </li>
+            <br/>
+
+            <li><p><b>random (HelloRetryRequest)</b></p>
+              <p>To identify the helloRetryRequest message from a serverHello message, the random number of the helloRetryRequest is always equal to: <p>CF 21 AD 74 E5 9A 61 11 BE 1D 8C 02 1E 65 B8 91<br/>C2 A2 11 16 7A BB 8C 5E 07 9E 09 E2 C8 A8 33 9C</p></p>
+            </li>
+
+            <br/>
+
+      			<li><p><b>legacy_session_id</b></p>
+      				<p><u>If Client TLS1.3 and Server TLS1.2 or below:</u></br>In compatibility mode: this field must be non-empty so a client not offering a pre-TLS1.3 session must generate a new 32-byte value. This value need not be random but should be unpredictable to avoid implementations fixating on a specific value (also known as ossification). Otherwise, it MUST be set as a zero-length vector (i.e., a zero-valued single byte length field). </p>
+      				<p><u>If Client TLS1.2 or below</u> </br>When a client has a cached session ID that is set by a pre-TLS1.3 server then this field should be set to that value </p> 
+      			</li>
+        </ul>
+          <br/>
+          <p><u>Not included terms:</u></b></p>
+         <ul>
+          <li><p><b>Cookie</b></p>
+              <p> Cookies extension can be added in the helloRetryRequest. When it is the case, the client must add in the clientHello responded a cookie extension. <br/>        
+              The cookie extension should not be added in the serverHello, nor should be added in the clientHello if it is not a response to a helloRetryRequest.</p>
+            </li>
+          <br/>
+          
+      	
+          </ul>
+    	</div>
+  		</uib-accordion> 
+	</p>
+	</br>
+  <p>
+		<h3 style="color:#F39C12"> Server Parameters</h3>
+		<uib-accordion >
+
+		<div uib-accordion-group id="serverParameters" heading="Encrypted Extensions" style="border-radius: 2em;border:2px solid;border-color:#F39C12;" >
+			
+    		
+          <p><u>Not included terms:</u></b></p>
+    			<br/>
+ 	     		<ul>
+      			    			
+      			<li><p><b>Max_fragment_length:</b></p>
+      			<p>
+      			The fixed maximum plaintext fragment length specified in TLS without this extension is 2^14 bytes. Sometimes, due to memory or bandwidth limitation, smaller maximum fragment length are needed. The size minimization can be done by including this extension in the clientHello. Possible values for this extension are: 2^9, 2^10, 2^11 or 2^12.</p>
+      			</p>
+      			When servers receive a clientHello having this extension, they may accept the requested size by including an extension of type "max_fragment_length". The value of the  <i>max_fragment_length</i> extension in the encrypted extension messaage should be the same as the value in "max_fragment_length" in the clientHello.
+  				</p>
+
+      			</br>
+
+      			<li><p><b>Server_name:</b></p>
+      				<p>Clients should send this extension in the clientHello when applicable. It helps the client to give the name of the server he is contacting, especially in cases where the server host multiple ‘virtual’ servers at a single underlying network address.</p>
+
+      				<p>When the extension <i>server_name</i> in the clientHello is offered, it could be used by the server to guide its selection of an appropriate certificate to return and other aspects of security policy. If so, the server should include an extension of type <i>server_name</i> that should be empty.
+					</p>
+      			</li>
+
+      			<br/>
+
+      			<li><p><b>Application_layer_protocol_negotiation:</b></p>
+      				<p>This extension lets the application layer negotiate protocol selection within the TLS handshake. It can be sent by the client in the ClientHello message. It is a list ordered in descending order of preference of protocols advertised by the client. The server receiving this extension may return a suitable protocol selection in its own extension of type <i>application_layer_protocol_negotiation</i>. 
+      				</p>
+      			</li>
+
+      			</br>
+
+      			<li><p><b>Heartbeat:</b></p>
+      				<p>In TLS, no feature is available that keeps the connection alive without continuous data transfer. This is overcomed with the heartbeat extension. When a user sends a HeartbeatRequest message, the other peer should answer immediately with a HeartbeatResponse. </p>
+      				<p> The support of this feature is used in the clientHello and the encryptedExtension extensions. In this field, not only the peer can indicate if he supports Heartbeats, but also if he can receive HearbeatRequest messages and respond with a HeartBeatResponse messages, or, if he can only send HearbeatRequest messages. </p>
+					<p> The heartBeat protocol is then run on top of the record protocol. The heartbeat message may arrive anytime. Whenever a heartbeatRequest message is received, it should be answered by a heartbeatResponse message. </p>
+      			</li>
+      			
+      			</br>
+      		</ul>
+
+		</div>
+    
+    	<div uib-accordion-group id="serverParameters" heading="Certificate Request" style="border-radius: 2em;border:2px solid;border-color:#F39C12;" >
+      		<ul> 
+            <li><p><b>certificate_request_context</b></p>
+              <p> If this field is not used in the post-handshake authentication exchanges, it must always be of zero length.
+             </p>
+            </li>
+            <br/>
+
+            <li><p><b>Certificate Authorities</b></p>
+              <p>In this extension the server may indicate the certificate authorities (CAs) that he supports. The data of this field is a list of distinguished names of certificate authorities.</p>
+            </li>
+          </ul>
+    	</div>
+  		</uib-accordion> 
+	</p>
+</br>
+<p>
+    <h3 style="color:#16A085"> Authentication </h3>
+    <uib-accordion >
+
+      <div uib-accordion-group id="authentication" heading="Certificate" style="border-radius: 2em;border:2px solid;border-color:#16A085;">
+
+        <ul> 
+          <li><p><b>OCSP status</b></p>
+            <p> This extension give the option of using OCSP for certificate revocation. OCSP helps checking the availability of server certificates and avoiding transmission of Certificate Revocation List (CRL) This saves a lot of bandwidth on constrained networks by saving roundtrips and resources. </p>
+          </li>
+          <br/>
+
+          <li><p><b>SCT</b></p>
+            <p> In a brief way, TLS only accept certificate that are logged. The SCT constitute an assurance by a Certificate Transparency log to publicly record a certificate. </p>
+          </li>
+
+        </ul>
+
+      </div>
+  
+     </div>
+
+    </uib-accordion> 
+  </p>
+</div>
+
+<!-- 	status_request:  CH, CR, CT
+  use_srtp: CH, EE
+  oid_filters: CR
+  signed_certificate_timestamp: CH, CR, CT -->
+</div>

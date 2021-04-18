@@ -1,0 +1,181 @@
+
+<div ng-if ="visibleMrHint==false" >
+    <div  id="mrHint" >
+    <button style="background-color:transparent; border:transparent;" ng-click="openMrHint()">
+        <div ng-if="mrHintChallengeSucess && mrHintChallenge" style="color:#1F618D;">
+        Congrats ! <br/>Challenge done <br/> (now if any alert popped, try solving them)
+        </div>
+        <div ng-if="mrHintChallenge==false" style="color:#1F618D;"> Click me </div>
+        <div ng-if="mrHintChallenge && !mrHintChallengeSucess " style="color:#1F618D;">Challenge Accepted</div>  
+        <div class="circleClient" style="margin-bottom:5px; border-color: #1F618D; margin: 0px 30px; position:relative!important;" > <img src="views/images/mrHint3.PNG" width="70%"/>   
+        </div> 
+    </button>
+</div>
+</div>
+<div ng-if="visibleMrHint==true" >
+<div class="mrHint" >
+    <div class="sticky-top" style="padding:1%" > 
+        <button  id="close" ng-click='closeMrHint()'><span> X </span></button>
+        <div ng-if="mrHintChallengeSucess && mrHintChallenge" style="color:#1F618D;">
+        Congrats ! <br/>Challenge done<br/> (now if any alert popped, try solving them)
+        </div>
+       <div class="circleClient" style="border-color: #1F618D;" > <img src="views/images/mrHint3.PNG" width="70%"/> </div> 
+       <h2 style="text-align: center; color: #1F618D ">Let's Challenge! </h2>
+       <div style="padding:5%">{{randomValueMrHint}}</div> 
+        <div style="padding:5%" ng-if="randomValueMrHint == 'Try not including server authentication (with no alerts)'" >
+            hint: PSK
+        </div>
+        <button  id="addButton" ng-if="!mrHintChallenge" style="background-color: green; color:white; margin:10px;" ng-click="acceptMrHintChallenge()" >Challenge Accepted</button> 
+        <button ng-if="!mrHintAnswer" style="border-color: transparent; font-size:10px" ng-click="showMrHintAnswer()">Lost and need the answer? Click here</button> 
+       <div ng-if="mrHintAnswer" style="font-size:10px">
+            Answer:
+            <div ng-if="randomValueMrHint == 'Try not including server authentication'" >
+                Remove the <i>signature_algorithms</i> extension from the Client Hello message
+            </div>
+            <div ng-if="randomValueMrHint ==  'Try changing key exchange mode to PSK only'">
+                <ul>
+                    <li> Add <i>pre_shared_key</i> and <i>psk_key_exchange_modes</i> extensions to the Client Hello message </li>
+                    <li> Remove <i>supported_groups</i>, <i>key_share</i>, <i>signature_algorithms</i>, and <i>signature_algorithms_cert</i> extensions from the Client Hello message </li>
+                    <li> Remove the <i>key_share</i> extension from the Server Hello message </li>
+                    <li> Add the <i>pre_shared_key</i>extension to the Server Hello message </li>
+                </ul>
+            </div> 
+            <div ng-if="randomValueMrHint == 'Try changing key exchange mode to PSK with ECDHE'">
+                <ul>
+                    <li> Add <i>pre_shared_key</i> and <i>psk_key_exchange_modes</i> extensions to the Client Hello message </li>
+                    <li> Remove <i>signature_algorithms</i>, and <i>signature_algorithms_cert</i> extensions from the Client Hello message </li>
+                    <li> Add <i>supported_groups</i> and <i>key_share</i> extensions to the Client Hello message </li>
+                    <li> Make sure that <i>supported_groups</i> contains a ECDHE curve </li>
+                    <li> Select in the <i>key_share</i> extension in the Server Hello message  an ECDHE curve </li>
+                    <li> Add the <i>pre_shared_key</i> extension to the Server Hello message </li>
+                </ul>
+            </div>
+            <div ng-if="randomValueMrHint == 'Try changing key exchange mode to PSK with DHE'">
+                <ul>
+                    <li> Add <i>pre_shared_key</i> and <i>psk_key_exchange_modes</i> extensions to the Client Hello message </li>
+                    <li> Remove <i>signature_algorithms</i>, and <i>signature_algorithms_cert</i> extensions from the Client Hello message </li>
+                    <li> Add <i>supported_groups</i> and <i>key_share</i> extensions to the Client Hello message </li>
+                    <li> Make sure that <i>supported_groups</i> contains a DHE curve </li>
+                    <li> Select in the <i>key_share</i> extension in the Server Hello message  an DHE curve </li>
+                    <li> Add the <i>pre_shared_key</i> extension to the Server Hello message </li>
+                </ul>
+            </div>
+            <div ng-if="randomValueMrHint == 'Try letting the client sending early application data'">
+                Add the <i>early_data</i> extension to the Client Hello message 
+            </div>
+            <div ng-if="randomValueMrHint == 'Try letting the server reply with a HelloRetryRequest message'">
+                <ul>
+                    <li> Add <i>supported_groups</i>, <i>key_share</i>, <i>signature_algorithms</i>, and <i>signature_algorithms_cert</i> extensions to the Client Hello message </li>
+                    <li> Adjust the <i>key_share</i> extension to be an empty field. </li>
+                </ul>
+            </div>
+        </div>
+
+        <button  id="close" ng-click='shuffleMrHint()'><span> &#8635; </span></button>
+    </div>
+</div>
+</div>
+<div class="leftBox"> 
+    <h4><b>{{leftBoxTitle}}</h4></b></br>
+
+
+    <div ng-bind-html="leftBoxContent"  >
+         
+    </div>
+    <div ng-if="adjusting == true" >
+
+        
+        <p ng-bind-html="adjustMessage" ng-if='supported_groups[0]== false && supported_groups[1]== false && key_share== false'>
+         
+        </p>
+    
+        <form >
+            <span ng-repeat="n in splitted" ng-if='supported_groups[0]== false && supported_groups[1]== false && key_share== false'>
+                <label ng-if='checkbox == false'>
+                    <span ng-if='radioClientCertServer == true'>
+                        <input  type="radio" ng-model="certServer.client" value="{{n}}" ng-change='nowAdjust()'>
+                        {{n}}
+                        </br>
+                    </span>
+                    <span ng-if='radioServerCertServer == true'>
+                        <input  type="radio" ng-model="certServer.server" value="{{n}}" ng-change='nowAdjust()'>
+                        {{n}}
+                        </br>
+                    </span>
+                     <span ng-if='radioServerCertServer == false && radioClientCertServer == false'>
+                        <input  type="radio" ng-model="data.adjust" value="{{n}}" ng-change='nowAdjust()'>
+                        {{n}}
+                        </br>
+                    </span>
+                </label>
+                <label ng-if='checkbox == true' >
+                    <span ng-if='checkboxCipherSuites == true'>
+                        <input  type="checkbox"  ng-model="cipherSuitesClient[n]" ng-change='nowAdjust()'>
+                        {{n}}
+                    </span>
+                    <span ng-if='checkboxClientCert == true'>
+                        <input  type="checkbox"  ng-model="clientCert[n]" ng-change='nowAdjust()'>
+                        {{n}} 
+                    </span>
+                    <span ng-if='checkboxServerCert == true'>
+                        <input  type="checkbox"  ng-model="serverCert[n]" ng-change='nowAdjust()'>
+                        {{n}}
+                    </span>
+                    <span ng-if='checkboxsign_algo[0] == true'>
+                        <input  type="checkbox"  ng-model="signatureClient[n]" ng-change='nowAdjust()'>
+                        {{n}}
+                    </span>
+                    <span ng-if='checkboxsign_algo_cert[0] == true'>
+                        <input  type="checkbox"  ng-model="signature_certClient[n]" ng-change='nowAdjust()'>
+                        {{n}}
+                    </span>
+                     <span ng-if='checkboxsign_algo[1] == true'>
+                        <input  type="checkbox"  ng-model="signatureServer[n]" ng-change='nowAdjust()'>
+                        {{n}}
+                    </span>
+                    <span ng-if='checkboxsign_algo_cert[1] == true'>
+                        <input  type="checkbox"  ng-model="signature_certServer[n]" ng-change='nowAdjust()'>
+                        {{n}}
+                    </span>
+                    <br/>  
+                </label>
+            </span>
+
+
+
+
+            <span ng-if='supported_groups[0]== true && key_share== false||supported_groups[1]== true && key_share== false'>
+                <p><b>Elliptic Curve Groups (ECDHE):</b></p>
+                <span ng-repeat="n in groupsSplitted1">
+                    <input ng-if="supported_groups[0] == true" type="checkbox"  ng-model="ECDHEClient[n]" ng-change='nowAdjust()'>
+                    <input ng-if="supported_groups[1] == true" type="checkbox"  ng-model="ECDHEServer[n]" ng-change='nowAdjust()'>
+                     {{n}}
+                     <br/>
+                </span>
+                <br/>
+                <p><b>Finite Field Groups (DHE):</b></p>
+                <span ng-repeat="n in groupsSplitted2">
+                    <input ng-if="supported_groups[0] == true" type="checkbox"  ng-model="DHEClient[n]" ng-change='nowAdjust()'>
+                    <input ng-if="supported_groups[1] == true" type="checkbox"  ng-model="DHEServer[n]" ng-change='nowAdjust()'>
+                     {{n}}
+                     <br/>
+                </span>
+            </span>
+            <span ng-if='key_share == true'>
+                <p><b>Elliptic Curve Groups (ECDHE):</b></p>
+                <span ng-repeat="n in groupsSplitted1" >
+                    <input  type="radio"  ng-model="data.adjust" value="{{n}}"  ng-change='nowAdjust()'>
+                    {{n}}
+                    </br>
+                </span>
+                <br/>
+                <p><b>Finite Field Groups (DHE):</b></p>
+                <span ng-repeat="n in groupsSplitted2" >
+                    <input  type="radio"  ng-model="data.adjust" value="{{n}}"  ng-change='nowAdjust()'>
+                    {{n}}
+                    </br>
+                </span>                   
+            </span>
+        </form>
+    </div>
+</div>

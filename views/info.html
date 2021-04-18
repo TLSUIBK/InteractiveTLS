@@ -1,0 +1,78 @@
+<div class="content" style="font-size:19px">
+	<p> This website is an interactive learning platform for the transport layer security (TLS) protocol's handhake, version 1.3.</p>
+	<p> It is for educational purposes </p>
+	<p> Two tools are available: 
+		<ul>
+			<li><b>TLS Handshake</b>: Discover how the TLS protocol works by visualising and interactively playing with the fields and steps of the protocol</li>
+			<li><b>Attacks</b>: Discover possible attacks (downgrade and replay) in TLS by visualising them with animation.</li>
+		</ul>
+	</p>
+<div class="content" style="font-size:19px">
+	<h1>1. TLS Handshake</h1>
+	<p>This tool helps the user to play around the protocol and discover each field and step of the protcol </p>
+	The TLS Handshake sub-Protocol can be divided into three phases (key exchange, server parameters, and authentication), where each phase has many steps and each step has many fields.
+	The three phases (key exchange, server parameters, and authentication) are represented by the three colors: <span style="color:#2E86C1">Blue</span>, <span style="color:#F39C12"> Orange </span>, and  <span style="color:#16A085">Green </span> respectively.
+	Each step is represented by a bubble that contains field x and y, like the following example:
+	<div class="stepClient" >
+    <div class="stepClientContent" id="keyExchange" >    
+    	<h3> Step's title (Key Exchange phase)</h3>
+    	<div style="display: inline-block;" >
+            <div class="deleteButton" >x</div>
+            <div class="adjustButton" >+</div>
+            <div class="infoButton" >i</div>
+            field x
+        </div>
+        </br>
+        <div style="display: inline-block;" >
+            <div class="deleteButton" >x</div>
+            <div class="adjustButton" >+</div>
+            <div class="infoButton" >i</div>
+            field y
+        </div>
+        </br>
+    </div>
+	</div>
+	<br/>
+	Where: <br/>
+
+	<div class="infoButton" >i</div> Info Button: Gives information about the field <br/>
+
+	<div class="adjustButton" >+</div> Adjust Button: Let the user adjust the field's value <br/>
+
+	<div class="deleteButton" >x</div> Delete Button: Deletes the field from the step
+
+	<br/>
+	<br/>
+	<h3> <b>Blocked Step: </b></h3>
+	When the step has a grey background, this means that the step is not yet done. The blocking of a step can be due to:
+	<ul>
+		<li> Normal reasons: the user did not yet arrive to the step </li>
+		<li> Alert: blocking of the step because of an alert that was triggered from a step preceding it. </li>
+	</ul>
+	<div class="stepClient" >
+    <div class="stepClientContent" id="keyExchange" style="background-color:#E5E7E9">    
+    	<h3> Step's title</h3>
+    	<div style="display: inline-block;" >
+            <div class="infoButton" >i</div>
+            field x
+        </div>
+        </br>
+        <div style="display: inline-block;" >
+            <div class="infoButton" >i</div>
+            field y
+        </div>
+        </br>
+    </div>
+	</div>
+	<br/>
+
+	<h3> <b>Alert: </b></h3>
+	<p>When an alert is triggered, the handshake is aborted. Therefore the tool will go back to the step where the alert was triggered and block all the steps following it.</p>
+	<p> To unblock the steps that were blocked due to an alert, the alert must be resolved. </p>
+</div>
+<div class="content" style="font-size:19px">
+	<h1> 2. Attacks </h1>
+	<h3> (Replay Attack and Downgrade Attack) </h3>
+	<p>This tool helps the user to discover possible attacks (downgrade and replay) in TLS by visualising them with animation.</li>
+</div>
+</div>

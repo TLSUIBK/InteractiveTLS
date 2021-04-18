@@ -1,0 +1,246 @@
+<!--------------- CLIENTHELLO ------------------>
+<div class="stepClient" >
+    <div class="stepClientContent" id="keyExchange" style="width:50%;">    
+        <div class="circleClient"  id="keyExchange"> 1 </div> 
+        <h3>ClientHello</h3>
+        <span ng-repeat="n in clientHello" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                <div ng-if="n.delete == 'yes' " class="deleteButton"  ng-click="showInfo('clientHello', n, 'delete')">x</div>
+                <div ng-if="n.adjustment == 'yes' " class="adjustButton" ng-click="showInfo('clientHello', n, 'adjust')">+</div>
+                <div  class="infoButton" ng-click="showInfo('clientHello', n, 'info')">i</div>
+                {{n.eltName}} {{n.eltValue}} 
+            </div>
+            </br>
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span id="repeat">
+        <span ng-repeat="n in chExtensions" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;" >
+                <div ng-if="n.delete == 'yes'" class="deleteButton"  ng-click="showInfo('chExtensions', n, 'delete')">x</div>
+                <div ng-if="n.adjustment == 'yes'" class="adjustButton" ng-click="showInfo('chExtensions', n, 'adjust')">+</div>
+                <div class="infoButton" ng-click="showInfo('chExtensions', n, 'info')">i</div>
+                {{n.eltName}} {{n.eltValue}} 
+            </div>
+            </br>
+        </span> 
+        </span>
+        <br/>
+        
+
+        <button id="addButton" ng-if="addList[0] == false || listAdd.length ==0" ng-click="add(chExtensions,0)">
+            Add extension
+        </button>
+     
+        <div id="adjustForm"  ng-if="addList[0] == true && listAdd.length >0" > 
+        <form>
+            <span ng-repeat="(m,n) in listAdd">
+                <input type="radio"  ng-model="data.add" value="{{n}}">
+                    {{n}}
+                </input>
+                <br/>
+            </span>
+            <button id="addButton"  style="background-color: green; color:white; margin-top:5px;" ng-click="addAdjust1('clientHello',chExtensions)">
+                Adjust
+            </button>
+        </form>
+        </div> <br/>
+        <div ng-if="addList[0] == true && listAdd.length==0">
+            Nothing to add 
+        </div>
+        <button id="keyExchangeButton" ng-show='step <= 1.0' ng-click="incrementStep(step,'clientHello')" >
+            Send to Server
+        </button>
+        
+    </div>
+
+        <span ng-if="step > 1.0" style="font-size:100px; color: #2E86E7;"> &rarr; </span>
+</div>    
+<!---------- HELLORETRYREQUEST + ClientHello ----------->
+    <!---------- HELLORETRYREQUEST -----------> 
+<div class="stepServer"> 
+    <div class="stepServerContent" id="keyExchange" ng-if="keyExchange[0] == 'helloRetryRequest' && step<2"  style="width:50%; background-color:#E5E7E9;">
+        <div class="circleServer"  id="keyExchange"> 2</div> 
+        <h3>Hello Retry Request</h3>
+        <span ng-repeat="n in serverHello" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+            </div>
+            </br>        
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span ng-repeat="n in shExtensions" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}} 
+            </div>
+            </br>
+        </span>
+    </div>
+    <span ng-if="keyExchange[0] == 'helloRetryRequest' && step>2.5" style="font-size:100px; color: #2E86C1;"> &larr; </span>
+    <div class="stepServerContent" style="width:50%;" id="keyExchange" ng-if="keyExchange[0] == 'helloRetryRequest' && step>=2">
+        <div class="circleServer" id="keyExchange"> 2</div> 
+        <h3>Hello Retry Request</h3>
+        <!-- <div ng-if="keyExchange[0] == 'helloRetryRequest'"> -->
+         <span ng-repeat="n in serverHello" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+               {{n.eltName}} {{n.eltValue}}
+            </div>
+            </br>        
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span ng-repeat="n in shExtensions" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}} 
+            </div>
+            </br>
+        </span>
+        <br/>
+    </div>      
+</div>
+
+
+<!---------- ClientHello ----------->
+<div ng-if="keyExchange[0] == 'helloRetryRequest'" class="stepClient"> 
+    <div class="stepClientContent" id="keyExchange" ng-if="step<2.5" style="width:50%; background-color:#E5E7E9">
+        <div class="circleClient" ng-model="step" id="keyExchange"> 3</div>    
+        <h3>ClientHello</h3>        
+        <span ng-repeat="n in clientHello" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+            </div>
+            </br>        
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span ng-repeat="n in chExtensions" ng-if="n.deleted=='no'">
+            <div ng-if="n.eltName == 'key_share'" style="display: inline-block;">
+                {{n.eltName}}
+                <span ng-if="supp_groups == 0" > = ECDHE </span>
+                <span ng-if="supp_groups == 1" > = DHE </span>
+                <span ng-if="supp_groups == 2" > = ECDHE + DHE </span>
+            </div>
+            <div ng-if="n.eltName!='key_share'" style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+            </div>
+            </br>     
+        </span>
+    </div>
+
+    <div class="stepClientContent" id="keyExchange" ng-if="step>=2.5 "style="width:50%;">
+        <div class="circleClient" ng-model="step" id="keyExchange" > 3</div>    
+        <h3>ClientHello</h3>        
+        <span ng-repeat="n in clientHello" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+            </div>
+            </br>            
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span ng-repeat="n in chExtensions" ng-if="n.deleted=='no'">
+            <div ng-if="n.eltName == 'key_share'" style="display: inline-block;">
+                {{n.eltName}}
+                <span ng-if="supp_groups == 0" > = ECDHE </span>
+                <span ng-if="supp_groups == 1" > = DHE </span>
+                <span ng-if="supp_groups == 2" > = ECDHE + DHE </span>
+            </div>
+            <div ng-if="n.eltName!='key_share'" style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+            </div>
+            </br>     
+        </span>
+    </div>
+    
+    <span ng-if=" step>=2.5" style="font-size:100px; color: #2E86C1;"> &rarr; </span>
+</div>
+
+<!----------------------- EARLY DATA ---------------->
+<div ng-if="early_dataClient" class="stepClient"> 
+    <div ng-if="step<=2.5" class="stepClientContent" id="keyExchange" style="width:50%; background-color:#E5E7E9;">
+        <h3>Application Data</h3>        
+    </div>
+    <div ng-if="step>2.5" class="stepClientContent" id="keyExchange" style="width:50%; background-color:transparent;">
+        <h3>Application Data</h3>        
+    </div>
+    <span ng-if="step>2.5" style="font-size:100px; color: #2E86C1;"> &rarr; </span>
+</div>
+
+
+<!--------------- SERVER RESPONSE ------------------>   
+<!--------------- SERVERHELLO ------------------>
+<div class="stepServer"> 
+	<div class="stepServerContent" id="keyExchange" ng-if="step<3.0" style="width:50%; background-color:#E5E7E9;">
+    	<div ng-if="keyExchange[0] == 'helloRetryRequest'" class="circleServer"  id="keyExchange">4</div> 
+        <div ng-if="keyExchange[0] == 'serverHello'" class="circleServer"  id="keyExchange"> 2</div> 
+    	<h3>Server Hello</h3>
+    	<!-- <div ng-if="keyExchange[0] == 'serverHello'" 	> -->
+    	<span ng-repeat="n in serverHello" ng-if="n.deleted=='no'">
+        	<div style="display: inline-block;">
+            	{{n.eltName}} {{n.eltValue}}
+                <div class="infoButton" ng-click="showInfo('serverHello', n, 'info')">i</div>
+            </div>
+            </br>        
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span ng-repeat="n in shExtensions" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}} 
+                <div class="infoButton" ng-click="showInfo('shExtensions', n, 'info')">i</div>
+            </div>
+            </br>
+        </span>
+    </div>
+
+    <!-- <span ng-if="step>3.0" style="font-size:100px; color: #2E86C1;"> &larr; </span> -->
+    <div class="stepServerContent" id="keyExchange" ng-if="step>=3.0">
+        <div ng-if="keyExchange[0] == 'helloRetryRequest'" class="circleServer"  id="keyExchange">4</div> 
+        <div ng-if="keyExchange[0] == 'serverHello'" class="circleServer" id="keyExchange"> 2</div> 
+        <h3>Server Hello</h3>
+        <span ng-repeat="n in serverHello" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}}
+                <div ng-if="n.delete == 'yes'" class="deleteButton" ng-click="showInfo('serverHello', n, 'delete')">x</div>
+                <div ng-if="n.adjustment == 'yes'" class="adjustButton" ng-click="showInfo('serverHello', n, 'adjust')">+</div>
+                <div class="infoButton" ng-click="showInfo('serverHello', n, 'info')">i</div>
+            </div>
+            </br>        
+        </span></br>
+        <div><b> Extensions: </b></div>
+        <span id="repeat">
+        <span ng-repeat="n in shExtensions" ng-if="n.deleted=='no'">
+            <div style="display: inline-block;">
+                {{n.eltName}} {{n.eltValue}} 
+                <div ng-if="n.delete == 'yes'" class="deleteButton"  ng-click="showInfo('shExtensions', n, 'delete')">x</div>
+                <div ng-if="n.adjustment == 'yes'" class="adjustButton" ng-click="showInfo('shExtensions', n, 'adjust')">+</div>
+                <div class="infoButton" ng-click="showInfo('shExtensions', n, 'info')">i</div>
+            </div>
+            </br>
+        </span>
+        </span>
+         <br/>
+
+        <button ng-if="addList[1] == false || listAdd.length ==0" id="addButton" ng-click="add(shExtensions,1)">
+            Add
+        </button>
+        <div ng-if="addList[1] == true && listAdd.length==0">
+            Nothing to add 
+        </div>
+        <div id="adjustForm" ng-if="addList[1] == true && listAdd.length >0"> 
+        <form >
+            <span ng-repeat="(m,n) in listAdd">
+             <input type="radio"  ng-model="data.add" value="{{n}}">
+                    {{n}}
+            </input>
+            <br/>
+            </span>
+            <button id="addButton" style="background-color: green; color:white; margin-top:5px;" ng-click="addAdjust1('serverHello',shExtensions)">
+                Adjust
+            </button>
+        </form> 
+        </div>
+        </br>
+
+        <button ng-show='step == 3.0' ng-click="incrementStep(step,'serverHello')" id="keyExchangeButton">
+            Next Step
+        </button>
+    </div>
+
+</div>
+
