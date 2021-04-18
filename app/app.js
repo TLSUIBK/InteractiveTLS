@@ -63,6 +63,7 @@ myTLSApp.controller('TLSController', ['$scope', '$http', function($scope, $http)
 		$scope.randomValueMrHint = $scope.mrHint[Math.floor(Math.random() * $scope.mrHint.length)];
 		$scope.mrHintChallenge = false;
 		$scope.mrHintChallengeSucess = false;
+		$scope.mrHintAnswer = false;
 	}
 
 	$scope.addToMrHint = function(title){
