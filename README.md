@@ -9,7 +9,7 @@ Two tools are available:
  2. *Attacks:* Discover possible attacks (downgrade and replay) in TLS by visualising them with animation.
 
 # Publication
-Visit [this link](https://tlsuibk.github.io/InteractiveTLS/#!/home) to explore the platform.
+Visit [this link](https://tlsuibk.github.io/InteractiveTLS) to explore the platform.
 
 # Licence
 It is done for educational purposes, and therefore is open-source.

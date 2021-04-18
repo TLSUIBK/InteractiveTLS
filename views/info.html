@@ -1,4 +1,4 @@
-<div class="content" style="font-size:19px">
+<div class="content" style="font-size:18px">
 	<p> This website is an interactive learning platform for the transport layer security (TLS) protocol's handhake, version 1.3.</p>
 	<p> It is for educational purposes </p>
 	<p> Two tools are available: 
@@ -7,7 +7,7 @@
 			<li><b>Attacks</b>: Discover possible attacks (downgrade and replay) in TLS by visualising them with animation.</li>
 		</ul>
 	</p>
-<div class="content" style="font-size:19px">
+<div class="content" style="font-size:18px">
 	<h1>1. TLS Handshake</h1>
 	<p>This tool helps the user to play around the protocol and discover each field and step of the protcol </p>
 	The TLS Handshake sub-Protocol can be divided into three phases (key exchange, server parameters, and authentication), where each phase has many steps and each step has many fields.
@@ -43,7 +43,7 @@
 
 	<br/>
 	<br/>
-	<h3> <b>Blocked Step: </b></h3>
+	<h3> <u><b>Blocked Step: </b></u></h3>
 	When the step has a grey background, this means that the step is not yet done. The blocking of a step can be due to:
 	<ul>
 		<li> Normal reasons: the user did not yet arrive to the step </li>
@@ -66,11 +66,25 @@
 	</div>
 	<br/>
 
-	<h3> <b>Alert: </b></h3>
+	<h3> <u><b>Alert: </b></u></h3>
 	<p>When an alert is triggered, the handshake is aborted. Therefore the tool will go back to the step where the alert was triggered and block all the steps following it.</p>
 	<p> To unblock the steps that were blocked due to an alert, the alert must be resolved. </p>
+
+	<h3> <u><b>Challenger: </b></u></h3>
+	<p>The challenger is here to help you get familiar with the platform.</p>
+	<ul>
+	<li>	To start a challenge:
+		<ul>
+			<li> Accept the challenge by clickin on   <button  id="addButton" style="background-color: green; color:white; margin:10px;" >Challenge Accepted</button> </li>
+			<li>  "<span style="color:#1F618D;">Challenge Accepted</span>" will show. </li>
+			<li> Try to solve the challenge </li>
+			<li> If lost, click on <button style="border-color: transparent; font-size:10px">Lost and need the answer? Click here</button> to see hints on how to solve it</li>
+		</ul></li>
+	<li> To Change a challenge, reshuffle by clicking on:  <span> &#8635; </span>
+</li>
+</ul>
 </div>
-<div class="content" style="font-size:19px">
+<div class="content" style="font-size:18px">
 	<h1> 2. Attacks </h1>
 	<h3> (Replay Attack and Downgrade Attack) </h3>
 	<p>This tool helps the user to discover possible attacks (downgrade and replay) in TLS by visualising them with animation.</li>
